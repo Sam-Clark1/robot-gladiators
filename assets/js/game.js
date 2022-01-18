@@ -81,10 +81,16 @@ var fight = function(enemyName) {
     for (var i = 0; i < enemyNames.length; i++) {
       if (playerHealth > 0) {
         window.alert(`Welcome to Robot Gladiators! Round ${i + 1}`)
-      var pickedEnemyName = enemyNames[i];
-      enemyHealth = 50
-      fight(pickedEnemyName);
+        var pickedEnemyName = enemyNames[i];
+        enemyHealth = 50
+        fight(pickedEnemyName);
       }
+      if (playerHealth > 0 && i < enemyNames.length - 1) {
+        var storeConfirm = window.confirm("The fight is over, visit the store before the next round?")
+      }
+        if (storeConfirm) {
+          shop()
+        }
       else {
         window.alert("You have lost your robot in battle! Game Over!");
         break;
@@ -112,6 +118,64 @@ var endGame = function() {
   } 
   else {
   window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+  }
+}
+
+var shop = function() {
+  // Players current stats before buying at shop
+  console.log("Health = " + playerHealth)
+  console.log("Money = " + playerMoney)
+  console.log("Attack = " + playerAttack)
+
+  var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice.")
+
+  // shop item costs
+  refillCost = 7
+  upgradeCost = 7
+
+  switch (shopOptionPrompt) {
+    case "REFILL":
+    case "refill":
+      if (playerMoney >= refillCost) {
+        
+          window.alert(`Refilling player's health by 20 for ${refillCost} dollars.`);
+          playerHealth = playerHealth + 20;
+          playerMoney = playerMoney - refillCost;
+          console.log("Health = " + playerHealth)
+          console.log("Money = " + playerMoney)
+          break;
+      }
+      else {
+          window.alert ("You don't have enough money, try again.")
+          shop()
+      }
+      break;
+
+    case "UPGRADE":  
+    case "upgrade":
+      if (playerMoney >= upgradeCost) {
+          window.alert(`Upgrading player's attack by 6 for ${upgradeCost} dollars.`);
+          playerAttack = playerAttack + 6;
+          playerMoney = playerMoney - upgradeCost;
+          console.log("Attack = " + playerAttack)
+          console.log("Money = " + playerMoney)
+          break;
+      }
+      else {
+          window.alert ("You don't have enough money, try again.")
+          shop()
+      }
+      break;
+    
+    case "LEAVE":
+    case "leave":
+       window.alert("Leaving the store")
+      break;
+    
+    default:
+        window.alert("You did not pick a valid option. Try again.");
+        shop()
+      break;
   }
 }
 
